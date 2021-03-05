@@ -42,12 +42,17 @@ namespace room_raider
 
     static const option_t options[] =
     {
-        { "-d",   "--deconvolve",true,      "Deconvolve the captured signal"    },
-        { "-h",   "--help",      true,      "Output this help message"          },
-        { "-i",   "--in-file",   false,     "Input file"                        },
-        { "-o",   "--out-file",  false,     "Output file"                       },
-        { "-s",   "--sweep",     true,      "Produce sine sweep signal"         },
-        { "-sr",  "--srate",     false,     "Sample rate of output files"       },
+        { "-cd",  "--chirp-delay",      false,     "Delay between chirp and sine sweep in ms"   },
+        { "-d",   "--deconvolve",       true,      "Deconvolve the captured signal"             },
+        { "-ef",  "--end-freq",         false,     "End frequency of the sine sweep"            },
+        { "-g",   "--gain",             false,     "Gain (in dB) of the sine sweep"             },
+        { "-h",   "--help",             true,      "Output this help message"                   },
+        { "-i",   "--in-file",          false,     "Input file"                                 },
+        { "-o",   "--out-file",         false,     "Output file"                                },
+        { "-s",   "--sweep",            true,      "Produce sine sweep signal"                  },
+        { "-sf",  "--start-freq",       false,     "Start frequency of the sine sweep"          },
+        { "-sl",  "--sweep-length",     false,     "The length of the sweep in ms"              },
+        { "-sr",  "--srate",            false,     "Sample rate of output files"                },
         { NULL, NULL, false, NULL }
     };
 
@@ -207,15 +212,6 @@ namespace room_raider
 
         // Override configuration file parameters
         status_t res;
-        if ((val = options.get("--in-file")) != NULL)
-            cfg->sInFile.set_native(val);
-        if ((val = options.get("--out-file")) != NULL)
-            cfg->sOutFile.set_native(val);;
-        if ((val = options.get("--srate")) != NULL)
-        {
-            if ((res = parse_cmdline_int(&cfg->nSampleRate, val, "sample rate")) != STATUS_OK)
-                return res;
-        }
         if (options.contains("--sweep"))
         {
             if (cfg->enMode != M_NONE)
@@ -233,6 +229,46 @@ namespace room_raider
                 return STATUS_NO_MEM;
             }
             cfg->enMode     = M_DECONVOLVE;
+        }
+        if (cfg->enMode == M_NONE)
+        {
+            fprintf(stderr, "Sweep or deconvolution operating mode should be selected\n");
+            return STATUS_NO_MEM;
+        }
+
+        if ((val = options.get("--in-file")) != NULL)
+            cfg->sInFile.set_native(val);
+        if ((val = options.get("--out-file")) != NULL)
+            cfg->sOutFile.set_native(val);;
+        if ((val = options.get("--srate")) != NULL)
+        {
+            if ((res = parse_cmdline_int(&cfg->nSampleRate, val, "sample rate")) != STATUS_OK)
+                return res;
+        }
+        if ((val = options.get("--chirp-delay")) != NULL)
+        {
+            if ((res = parse_cmdline_float(&cfg->fChirpDelay, val, "chirp delay")) != STATUS_OK)
+                return res;
+        }
+        if ((val = options.get("--start-freq")) != NULL)
+        {
+            if ((res = parse_cmdline_float(&cfg->fStartFreq, val, "start frequency")) != STATUS_OK)
+                return res;
+        }
+        if ((val = options.get("--end-freq")) != NULL)
+        {
+            if ((res = parse_cmdline_float(&cfg->fEndFreq, val, "end frequency")) != STATUS_OK)
+                return res;
+        }
+        if ((val = options.get("--gain")) != NULL)
+        {
+            if ((res = parse_cmdline_float(&cfg->fGain, val, "gain")) != STATUS_OK)
+                return res;
+        }
+        if ((val = options.get("--sweep-length")) != NULL)
+        {
+            if ((res = parse_cmdline_float(&cfg->fSweepLength, val, "sweep length")) != STATUS_OK)
+                return res;
         }
 
         return STATUS_OK;

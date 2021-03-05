@@ -29,6 +29,12 @@ namespace room_raider
     {
         enMode          = M_NONE;
         nSampleRate     = 48000;
+
+        fChirpDelay     = 5.0f;
+        fStartFreq      = 10.0f;
+        fEndFreq        = 20000.0f;
+        fGain           = 0.0f;
+        fSweepLength    = 20.0f;
     }
 
     config_t::~config_t()
@@ -40,6 +46,12 @@ namespace room_raider
     {
         enMode          = M_NONE;
         nSampleRate     = 48000;
+
+        fChirpDelay     = 5.0f;
+        fStartFreq      = 10.0f;
+        fEndFreq        = 20000.0f;
+        fGain           = 0.0f;
+        fSweepLength    = 20.0f;
 
         sInFile.clear();
         sOutFile.clear();

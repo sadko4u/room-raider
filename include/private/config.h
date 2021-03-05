@@ -47,6 +47,11 @@ namespace room_raider
         public:
             mode_t                                  enMode;         // Operating mode
             ssize_t                                 nSampleRate;    // Sample rate for output files
+            float                                   fChirpDelay;    // Chirp delay
+            float                                   fStartFreq;     // Start frequency of sine sweep
+            float                                   fEndFreq;       // End frequency of sine sweep
+            float                                   fGain;          // Gain of the sine sweep signal
+            float                                   fSweepLength;   // The length of the sweep
             LSPString                               sInFile;        // Source file
             LSPString                               sOutFile;       // Destination file
 
