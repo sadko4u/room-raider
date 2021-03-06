@@ -230,11 +230,6 @@ namespace room_raider
             }
             cfg->enMode     = M_DECONVOLVE;
         }
-        if (cfg->enMode == M_NONE)
-        {
-            fprintf(stderr, "Sweep or deconvolution operating mode should be selected\n");
-            return STATUS_NO_MEM;
-        }
 
         if ((val = options.get("--in-file")) != NULL)
             cfg->sInFile.set_native(val);

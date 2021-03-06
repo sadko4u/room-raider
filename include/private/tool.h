@@ -22,6 +22,8 @@
 #ifndef PRIVATE_TOOL_H_
 #define PRIVATE_TOOL_H_
 
+#include <private/config.h>
+
 namespace room_raider
 {
     int main(int argc, const char **argv);
