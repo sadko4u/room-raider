@@ -43,6 +43,7 @@ UTEST_BEGIN("room_raider", cmdline)
         UTEST_ASSERT(float_equals_absolute(cfg->fGain, 0.57f));
         UTEST_ASSERT(cfg->sInFile.equals_ascii("input-file.wav"));
         UTEST_ASSERT(cfg->sOutFile.equals_ascii("output-file.wav"));
+        UTEST_ASSERT(cfg->sReference.equals_ascii("reference-file.wav"));
         UTEST_ASSERT(cfg->nSampleRate == 88200);
     }
 
@@ -58,6 +59,7 @@ UTEST_BEGIN("room_raider", cmdline)
             "-g",   "0.57",
             "-i",   "input-file.wav",
             "-o",   "output-file.wav",
+            "-r",   "reference-file.wav",
             "-sr",  "88200",
             NULL
         };

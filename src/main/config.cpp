@@ -55,6 +55,7 @@ namespace room_raider
 
         sInFile.clear();
         sOutFile.clear();
+        sReference.clear();
     }
 
 }

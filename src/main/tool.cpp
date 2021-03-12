@@ -107,11 +107,19 @@ namespace room_raider
         status_t res;
         dspu::Sample in;        // Sample for input
         dspu::Sample out;       // Sample for output
+        dspu::Sample ref;       // Sample for reference
 
         // Check that input file name is present
         if (cfg->sInFile.is_empty())
         {
             fprintf(stderr, "Not specified required input file name\n");
+            return STATUS_INVALID_VALUE;
+        }
+
+        // Check that reference file name is present
+        if (cfg->sReference.is_empty())
+        {
+            fprintf(stderr, "Not specified required reference file name\n");
             return STATUS_INVALID_VALUE;
         }
 
@@ -122,10 +130,24 @@ namespace room_raider
             return res;
         }
 
-        // Resample to desired sample rate
+        // Resample input file to desired sample rate
         if ((res = in.resample(cfg->nSampleRate)) != STATUS_OK)
         {
             fprintf(stderr, "Could not resample input audio file content: error code=%d\n", int(res));
+            return res;
+        }
+
+        // Read the reference file
+        if ((res = ref.load(&cfg->sReference)) != STATUS_OK)
+        {
+            fprintf(stderr, "Could not read reference audio file: error code=%d\n", int(res));
+            return res;
+        }
+
+        // Resample reference file to desired sample rate
+        if ((res = ref.resample(cfg->nSampleRate)) != STATUS_OK)
+        {
+            fprintf(stderr, "Could not resample reference audio file content: error code=%d\n", int(res));
             return res;
         }
 

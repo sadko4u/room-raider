@@ -54,6 +54,7 @@ namespace room_raider
             float                                   fSweepLength;   // The length of the sweep
             LSPString                               sInFile;        // Source file
             LSPString                               sOutFile;       // Destination file
+            LSPString                               sReference;     // Reference file
 
         public:
             explicit config_t();

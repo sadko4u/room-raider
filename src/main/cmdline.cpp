@@ -47,8 +47,9 @@ namespace room_raider
         { "-ef",  "--end-freq",         false,     "End frequency of the sine sweep"            },
         { "-g",   "--gain",             false,     "Gain (in dB) of the sine sweep"             },
         { "-h",   "--help",             true,      "Output this help message"                   },
-        { "-i",   "--in-file",          false,     "Input file"                                 },
-        { "-o",   "--out-file",         false,     "Output file"                                },
+        { "-i",   "--in-file",          false,     "Input audio file"                           },
+        { "-o",   "--out-file",         false,     "Output audio file"                          },
+        { "-r",   "--reference",        false,     "Reference audio file"                       },
         { "-s",   "--sweep",            true,      "Produce sine sweep signal"                  },
         { "-sf",  "--start-freq",       false,     "Start frequency of the sine sweep"          },
         { "-sl",  "--sweep-length",     false,     "The length of the sweep in ms"              },
@@ -234,7 +235,9 @@ namespace room_raider
         if ((val = options.get("--in-file")) != NULL)
             cfg->sInFile.set_native(val);
         if ((val = options.get("--out-file")) != NULL)
-            cfg->sOutFile.set_native(val);;
+            cfg->sOutFile.set_native(val);
+        if ((val = options.get("--reference")) != NULL)
+            cfg->sReference.set_native(val);
         if ((val = options.get("--srate")) != NULL)
         {
             if ((res = parse_cmdline_int(&cfg->nSampleRate, val, "sample rate")) != STATUS_OK)
