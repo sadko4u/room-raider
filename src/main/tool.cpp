@@ -27,6 +27,7 @@
 #include <private/tool.h>
 #include <private/config.h>
 #include <private/cmdline.h>
+#include <private/dsp.h>
 
 #define MIN_SAMPLE_RATE         8000
 #define MAX_SAMPLE_RATE         192000
@@ -66,8 +67,8 @@ namespace room_raider
             return STATUS_INVALID_VALUE;
         }
 
-        // Amplitude: as you wish but we can pin it to 1
-        float cgain     = dspu::db_to_gain(cfg->fGain);
+//        // Amplitude: as you wish but we can pin it to 1
+//        float cgain     = dspu::db_to_gain(cfg->fGain);
 
         // Delay between chirp and sine sweep
         if (cfg->fChirpDelay < 0.0f)
@@ -77,7 +78,8 @@ namespace room_raider
         }
 
         // Initialize output sample
-        size_t length   = 0x1000; // length in samples, should be computed
+        // Using 2X sweep lenght, sweet itself should be longer than expected reverberation time to be on the safe side.
+        size_t length   = dspu::seconds_to_samples(cfg->nSampleRate, 2 * cfg->fSweepLength);
         res             = out.init(1, length, length);
         if (res != STATUS_OK)
         {
@@ -86,11 +88,13 @@ namespace room_raider
         }
         out.set_sample_rate(cfg->nSampleRate); // This sample rate will be written to output file
 
-        // TODO: sync chirp + sine sweep generation - main processing here
-        // out   - output sample with generated chirp + sine sweep signal
-        // cgain - the gain
-        // length- length of the output sample
-        // cfg   - other parameters
+        // Sync chirp + sine sweep generation - At the moment swept sine only as chirp is not needed:
+        // new deconvolution technique automatically discards latency thanks to reference signal.
+        if ((res = synth_test_sweep(cfg, out)) != STATUS_OK)
+        {
+            fprintf(stderr, "Could not synthesize test sweep: error code=%d\n", int(res));
+            return res;
+        }
 
         // Save the sample to output
         if ((res = out.save(&cfg->sOutFile)) != STATUS_OK)
@@ -152,7 +156,8 @@ namespace room_raider
         }
 
         // Initialize output sample
-        size_t length   = 0x1000; // length in samples, should be computed
+        // We keep the output (Impulse Response) length the same as the longest recording.
+        size_t length   = lsp_max(in.length(), ref.length());
         res             = out.init(in.channels(), length, length);
         if (res != STATUS_OK)
         {
@@ -161,10 +166,8 @@ namespace room_raider
         }
         out.set_sample_rate(cfg->nSampleRate); // This sample rate will be written to output file
 
-        // TODO: deconvolution - main processing here
-        // out   - output sample with generated chirp + sine sweep signal
-        // length- length of the output sample
-        // cfg   - other parameters
+        // deconvolution
+        deconvolve(cfg, in, ref, out);
 
         // Save the sample to output
         if ((res = out.save(&cfg->sOutFile)) != STATUS_OK)
