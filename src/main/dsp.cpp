@@ -110,7 +110,11 @@ namespace room_raider
     {
         // We first prepare the data in a new buffers as we need to have them all the same length.
         size_t nBufferSize = lsp_max(in.length(), ref.length());
-        size_t nIRSize = 2 * nBufferSize - 1;
+        // This is the convolution size for one buffer nBufferSize long and one nBufferSize + 1 long.
+        // We can think of the input being nBufferSize + 1 long by padding it. We will actually pad it to the full
+        // convolution size so that we can do the convolution in one go. This will make the convolution size even,
+        // which gives the best results for latency removal.
+        size_t nIRSize = 2 * nBufferSize;
         size_t nOrigin = nIRSize / 2; // this is the origin of time in the deconvolution result.
         size_t nInChannels = in.channels();
 
