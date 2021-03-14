@@ -80,11 +80,10 @@ namespace room_raider
         // Initialize output sample
         // Using 2X sweep lenght, sweet itself should be longer than expected reverberation time to be on the safe side.
         size_t length   = dspu::seconds_to_samples(cfg->nSampleRate, 2 * cfg->fSweepLength);
-        res             = out.init(1, length, length);
-        if (res != STATUS_OK)
+        if (!out.init(1, length, length))
         {
-            fprintf(stderr, "Could not initialize outut sample: error code=%d\n", int(res));
-            return res;
+            fprintf(stderr, "Could not initialize output sample\n");
+            return STATUS_UNSPECIFIED;
         }
         out.set_sample_rate(cfg->nSampleRate); // This sample rate will be written to output file
 
@@ -97,10 +96,10 @@ namespace room_raider
         }
 
         // Save the sample to output
-        if ((res = out.save(&cfg->sOutFile)) != STATUS_OK)
+        if (out.save(&cfg->sOutFile) < 0)
         {
-            fprintf(stderr, "Could not write output audio file: error code=%d\n", int(res));
-            return res;
+            fprintf(stderr, "Could not write output audio file\n");
+            return STATUS_IO_ERROR;
         }
 
         return STATUS_OK;
@@ -158,11 +157,10 @@ namespace room_raider
         // Initialize output sample
         // We keep the output (Impulse Response) length the same as the longest recording.
         size_t length   = lsp_max(in.length(), ref.length());
-        res             = out.init(in.channels(), length, length);
-        if (res != STATUS_OK)
+        if (!out.init(in.channels(), length, length))
         {
-            fprintf(stderr, "Could not initialize outut sample: error code=%d\n", int(res));
-            return res;
+            fprintf(stderr, "Could not initialize outut sample\n");
+            return STATUS_UNSPECIFIED;
         }
         out.set_sample_rate(cfg->nSampleRate); // This sample rate will be written to output file
 
@@ -170,10 +168,10 @@ namespace room_raider
         deconvolve(cfg, in, ref, out);
 
         // Save the sample to output
-        if ((res = out.save(&cfg->sOutFile)) != STATUS_OK)
+        if (out.save(&cfg->sOutFile) < 0)
         {
-            fprintf(stderr, "Could not write output audio file: error code=%d\n", int(res));
-            return res;
+            fprintf(stderr, "Could not write output audio file\n");
+            return STATUS_IO_ERROR;
         }
 
         return STATUS_OK;

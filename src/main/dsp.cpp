@@ -65,12 +65,22 @@ namespace room_raider
         // Some synth action. Linear Swept Sine (it makes deconvolution easier, lowers aliasing).
         float fSlope = (cfg->fEndFreq - cfg->fStartFreq) / cfg->fSweepLength;
 
+        // Below we compute samples using double precision and phase wrapping. This highly reduces aliasing.
         for (size_t n = 0; n < nSamples; ++n)
         {
-            float fTime = float(n) / float(nOverRate);
+            // Use double for maximal accuracy, convert to float on assignment.
+            double dTime = double(n) / nOverRate;
             // For linear chirp we use quadratic instantaneous phase.
-            vSweep[n] = dspu::db_to_gain(cfg->fGain) * sin(2.0f * M_PI * (0.5f * fSlope * fTime * fTime + cfg->fStartFreq * fTime));
+            double dPhase = 2.0 * M_PI * (0.5 * fSlope * dTime * dTime + cfg->fStartFreq * dTime);
+            // Wrap phase between -M_PI and M_PI to maximise sin accuracy.
+            dPhase = fmod(dPhase + M_PI, 2.0 * M_PI);
+            dPhase = dPhase >= 0.0 ? (dPhase - M_PI) : (dPhase + M_PI);
+            // Ready
+            vSweep[n] = sin(dPhase);
         }
+
+        // Scale with gain.
+        dsp::mul_k2(vSweep, dspu::db_to_gain(cfg->fGain), nSamples);
 
         // In-place downsample.
         size_t nDownSamples = nSamples / nOversampling;

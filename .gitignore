@@ -13,3 +13,6 @@
 /.config.mk
 /INSTALL/
 /tmp
+/scripts/venv/
+/scripts/.idea/
+
