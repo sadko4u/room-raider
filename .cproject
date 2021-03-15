@@ -76,7 +76,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="scripts|modules/lsp-test-fw/src/test|modules/lsp-runtime-lib/src/test|modules/lsp-lltl-lib/src/test|modules/lsp-dsp-units/src/test|modules/lsp-dsp-lib/src/test|modules/lsp-common-lib/src/test" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="impulse_responses|simulations|scripts|modules/lsp-test-fw/src/test|modules/lsp-runtime-lib/src/test|modules/lsp-lltl-lib/src/test|modules/lsp-dsp-units/src/test|modules/lsp-dsp-lib/src/test|modules/lsp-common-lib/src/test" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -124,7 +124,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="scripts|modules/lsp-test-fw/src/test|modules/lsp-runtime-lib/src/test|modules/lsp-lltl-lib/src/test|modules/lsp-dsp-units/src/test|modules/lsp-dsp-lib/src/test|modules/lsp-common-lib/src/test" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="impulse_responses|simulations|scripts|modules/lsp-test-fw/src/test|modules/lsp-runtime-lib/src/test|modules/lsp-lltl-lib/src/test|modules/lsp-dsp-units/src/test|modules/lsp-dsp-lib/src/test|modules/lsp-common-lib/src/test" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

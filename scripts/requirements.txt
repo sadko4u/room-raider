@@ -2,3 +2,4 @@ audiofile
 scipy
 numpy
 matplotlib
+tqdm
