@@ -179,6 +179,9 @@ namespace room_raider
             sConvolver.process(vResult, vInput, nIRSize);
 
             // Copy to destination:
+            // To scale to physical units correctly we should know the nominal bandwidth of the test chirp...
+            // Let's just normalize, gain is just a factor at the end.
+            // Also: response must not contain absolute values higher than 1.
             dsp::normalize(vResult, vResult, nIRSize);
             dsp::fill_zero(out.getBuffer(ch), out.length());
             dsp::copy(out.getBuffer(ch), &vResult[nOrigin], lsp_min(out.length(), nIRSize - nOrigin));
