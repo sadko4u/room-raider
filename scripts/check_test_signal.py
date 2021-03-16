@@ -1,5 +1,5 @@
 import pathlib
-import audiofile
+import soundfile
 from scipy import signal
 import numpy as np
 import matplotlib.pyplot as plt
@@ -11,7 +11,7 @@ win_length = 0.01
 overlap = 0.75
 df = 1
 
-x, fs = audiofile.read(sweep_file)
+x, fs = soundfile.read(sweep_file)
 
 f, t, X = signal.stft(
     x=x,

@@ -125,7 +125,7 @@ namespace room_raider
         // convolution size so that we can do the convolution in one go. This will make the convolution size even,
         // which gives the best results for latency removal.
         size_t nIRSize = 2 * nBufferSize;
-        size_t nOrigin = nIRSize / 2; // this is the origin of time in the deconvolution result.
+        size_t nOrigin = nBufferSize; // nIRSize / 2; // this is the origin of time in the deconvolution result.
         size_t nInChannels = in.channels();
 
         // We expect the reference to be mono.
@@ -172,13 +172,14 @@ namespace room_raider
             if (!sConvolver.init(vKernel, nBufferSize, 16, 0))
                 return STATUS_NO_MEM;
 
-            dsp::fill_zero(vResult, nIRSize);
+            dsp::fill_zero(vInput, nIRSize);
             dsp::copy(vInput, in.getBuffer(ch), in.length());
             dsp::fill_zero(vResult, nIRSize);
 
-            sConvolver.process(vResult, vResult, nIRSize);
+            sConvolver.process(vResult, vInput, nIRSize);
 
             // Copy to destination:
+            dsp::normalize(vResult, vResult, nIRSize);
             dsp::fill_zero(out.getBuffer(ch), out.length());
             dsp::copy(out.getBuffer(ch), &vResult[nOrigin], lsp_min(out.length(), nIRSize - nOrigin));
         }

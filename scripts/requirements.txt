@@ -1,4 +1,4 @@
-audiofile
+soundfile
 scipy
 numpy
 matplotlib

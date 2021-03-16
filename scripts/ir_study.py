@@ -1,6 +1,6 @@
 import pathlib
 from tqdm import tqdm
-import audiofile
+import soundfile
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -14,7 +14,7 @@ ir_max_values = []
 ir_min_values = []
 
 for p in tqdm(ir_root_path.rglob('*.wav')):
-    h, fs = audiofile.read(p)
+    h, fs = soundfile.read(p)
 
     assert h.shape == (h.size, )
 
