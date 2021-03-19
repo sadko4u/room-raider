@@ -125,7 +125,7 @@ namespace room_raider
         // convolution size so that we can do the convolution in one go. This will make the convolution size even,
         // which gives the best results for latency removal.
         size_t nIRSize = 2 * nBufferSize;
-        size_t nOrigin = nBufferSize; // nIRSize / 2; // this is the origin of time in the deconvolution result.
+        size_t nOrigin = nBufferSize - 1; // this is the origin of time in the deconvolution result.
         size_t nInChannels = in.channels();
 
         // We expect the reference to be mono.
