@@ -22,7 +22,7 @@
 ARTIFACT_ID                 = ROOM_RAIDER
 ARTIFACT_NAME               = room-raider
 ARTIFACT_DESC               = Room-Raider - a tool for performing off-line impulse response capture of the room
-ARTIFACT_VERSION            = 0.5.0-devel
+ARTIFACT_VERSION            = 0.5.0
 
 #------------------------------------------------------------------------------
 # Plugin dependencies
