@@ -48,7 +48,7 @@ namespace room_raider
 
         // Allocate the array of the oversampled chirp samples.
         uint8_t *pData;
-        size_t nSamples = dspu::seconds_to_samples(nOverRate, cfg->fSweepLength);
+        size_t nSamples = dspu::millis_to_samples(nOverRate, cfg->fSweepLength);
 
         float *ptr = alloc_aligned<float>(pData, nSamples);
         if (ptr == NULL)
@@ -62,7 +62,8 @@ namespace room_raider
         lsp_assert(ptr <= &save[nSamples]);
 
         // Some synth action. Linear Swept Sine (it makes deconvolution easier, lowers aliasing).
-        float fSlope = (cfg->fEndFreq - cfg->fStartFreq) / cfg->fSweepLength;
+        // Factor of 1000 to convert from milliseconds to seconds.
+        float fSlope = 1000.0f * (cfg->fEndFreq - cfg->fStartFreq) / cfg->fSweepLength;
 
         // Below we compute samples using double precision and phase wrapping. This highly reduces aliasing.
         for (size_t n = 0; n < nSamples; ++n)
@@ -78,8 +79,8 @@ namespace room_raider
             vSweep[n] = sin(dPhase);
         }
 
-        // Scale with gain.
-        dsp::mul_k2(vSweep, dspu::db_to_gain(cfg->fGain), nSamples);
+        // Scale with gain, but the maximum gain must be 1 to prevent clipping in the final file.
+        dsp::mul_k2(vSweep, lsp_min(dspu::db_to_gain(cfg->fGain), 1.0f), nSamples);
 
         // In-place downsample.
         size_t nDownSamples = nSamples / nOversampling;

@@ -5,11 +5,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 tmp_path = pathlib.Path(__file__).parent.parent.joinpath('tmp')
-sweep_file = tmp_path.joinpath('test.wav')
+sweep_file = tmp_path.joinpath('check.wav')
 
 win_length = 0.01
 overlap = 0.75
-df = 1
+df = 10
 
 x, fs = soundfile.read(sweep_file)
 
@@ -35,5 +35,6 @@ plt.imshow(
 )
 plt.xlabel('Time [s]')
 plt.ylabel('Frequency [Hz]')
-plt.colorbar()
+cbar = plt.colorbar()
+cbar.ax.set_ylabel('dBFS')
 plt.show()

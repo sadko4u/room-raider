@@ -71,8 +71,9 @@ namespace room_raider
 //        float cgain     = dspu::db_to_gain(cfg->fGain);
 
         // Initialize output sample
-        // Using 2X sweep lenght, sweep itself should be longer than expected reverberation time to be on the safe side.
-        size_t length   = dspu::seconds_to_samples(cfg->nSampleRate, 2 * cfg->fSweepLength);
+        // Using 2X sweep length, sweep itself should be longer than expected reverberation time to be on the safe side.
+        // The time is provided in ms
+        size_t length = dspu::millis_to_samples(cfg->nSampleRate, 2.0f * cfg->fSweepLength);
         if (!out.init(1, length, length))
         {
             fprintf(stderr, "Could not initialize output sample\n");
