@@ -1,0 +1,5 @@
+soundfile
+scipy
+numpy
+matplotlib
+tqdm
