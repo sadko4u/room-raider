@@ -39,7 +39,6 @@ UTEST_BEGIN("room_raider", cmdline)
         UTEST_ASSERT(float_equals_absolute(cfg->fStartFreq, 12.3f));
         UTEST_ASSERT(float_equals_absolute(cfg->fEndFreq, 20001.2f));
         UTEST_ASSERT(float_equals_absolute(cfg->fSweepLength, 12.34f));
-        UTEST_ASSERT(float_equals_absolute(cfg->fChirpDelay, 4.56f));
         UTEST_ASSERT(float_equals_absolute(cfg->fGain, 0.57f));
         UTEST_ASSERT(cfg->sInFile.equals_ascii("input-file.wav"));
         UTEST_ASSERT(cfg->sOutFile.equals_ascii("output-file.wav"));
@@ -55,7 +54,6 @@ UTEST_BEGIN("room_raider", cmdline)
             "-sf",  "12.3",
             "-ef",  "20001.2",
             "-sl",  "12.34",
-            "-cd",  "4.56",
             "-g",   "0.57",
             "-i",   "input-file.wav",
             "-o",   "output-file.wav",

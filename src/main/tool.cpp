@@ -70,15 +70,8 @@ namespace room_raider
 //        // Amplitude: as you wish but we can pin it to 1
 //        float cgain     = dspu::db_to_gain(cfg->fGain);
 
-        // Delay between chirp and sine sweep
-        if (cfg->fChirpDelay < 0.0f)
-        {
-            fprintf(stderr, "Invalid chirp delay value\n");
-            return STATUS_INVALID_VALUE;
-        }
-
         // Initialize output sample
-        // Using 2X sweep lenght, sweet itself should be longer than expected reverberation time to be on the safe side.
+        // Using 2X sweep lenght, sweep itself should be longer than expected reverberation time to be on the safe side.
         size_t length   = dspu::seconds_to_samples(cfg->nSampleRate, 2 * cfg->fSweepLength);
         if (!out.init(1, length, length))
         {

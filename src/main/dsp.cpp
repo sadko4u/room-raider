@@ -19,15 +19,14 @@
  * along with room-raider. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <lsp-plug.in/dsp-units/util/Oversampler.h>
-#include <lsp-plug.in/dsp-units/units.h>
 #include <lsp-plug.in/common/alloc.h>
 #include <lsp-plug.in/common/debug.h>
+#include <lsp-plug.in/stdlib/math.h>
+#include <lsp-plug.in/dsp-units/util/Oversampler.h>
+#include <lsp-plug.in/dsp-units/units.h>
 #include <lsp-plug.in/dsp-units/util/Convolver.h>
 
 #include <private/dsp.h>
-
-#include <math.h>
 
 namespace room_raider
 {

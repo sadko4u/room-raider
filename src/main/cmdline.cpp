@@ -42,7 +42,6 @@ namespace room_raider
 
     static const option_t options[] =
     {
-        { "-cd",  "--chirp-delay",      false,     "Delay between chirp and sine sweep in ms"   },
         { "-d",   "--deconvolve",       true,      "Deconvolve the captured signal"             },
         { "-ef",  "--end-freq",         false,     "End frequency of the sine sweep"            },
         { "-g",   "--gain",             false,     "Gain (in dB) of the sine sweep"             },
@@ -241,11 +240,6 @@ namespace room_raider
         if ((val = options.get("--srate")) != NULL)
         {
             if ((res = parse_cmdline_int(&cfg->nSampleRate, val, "sample rate")) != STATUS_OK)
-                return res;
-        }
-        if ((val = options.get("--chirp-delay")) != NULL)
-        {
-            if ((res = parse_cmdline_float(&cfg->fChirpDelay, val, "chirp delay")) != STATUS_OK)
                 return res;
         }
         if ((val = options.get("--start-freq")) != NULL)
