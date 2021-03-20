@@ -13,6 +13,7 @@ room-raider --help
 ```
 
 The available option list will be the following:
+
 ```
   -d, --deconvolve       Deconvolve the captured signal
   -ef, --end-freq        End frequency of the sine sweep
