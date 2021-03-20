@@ -12,6 +12,21 @@ Use the following command to see the software usage:
 room-raider --help
 ```
 
+The available option list will be the following:
+```
+  -d, --deconvolve       Deconvolve the captured signal
+  -ef, --end-freq        End frequency of the sine sweep
+  -g, --gain             Gain (in dB) of the sine sweep
+  -h, --help             Output this help message
+  -i, --in-file          Input audio file
+  -o, --out-file         Output audio file
+  -r, --reference        Reference audio file
+  -s, --sweep            Produce sine sweep signal
+  -sf, --start-freq      Start frequency of the sine sweep
+  -sl, --sweep-length    The length of the sweep in ms
+  -sr, --srate           Sample rate of output files
+```
+
 ## Performing Measurements
 
 This software is designed to generate test signals for the excitation of rooms and postprocess recordings performed with said test signal in order to extract the impulse response(s). The measurement process is comprised of three steps:
@@ -27,7 +42,7 @@ The steps are discussed in details below.
 The test signal is a linear swept sine. The user can specify its starting and ending frequencies, gain and duration. An example is shown below:
 
 ```bash
-room-raider s -sr 96000 -sf 0 -ef 24000 -g -6 -sl 1000 -o testsig.wav
+room-raider -s -sr 96000 -sf 0 -ef 24000 -g -6 -sl 1000 -o testsig.wav
 ```
 
 Note that the gain is specified in `dB` (`-g -6`) and the swept sine is specified in milliseconds (`-sl 1000`). For more information, see `room-raider --help`.
