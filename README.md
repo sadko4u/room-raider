@@ -112,7 +112,7 @@ The recordings of the signals listed above should *not be shorter* of the entire
 
 #### Reference Signal Option 1: Split Feed
 
-![Spectrogram](res/pics/option-1.png)
+![Option 1: Split Feed](res/pics/option-1.png)
 
 The picture above shows the connection diagram for the option 1 for room outputs and reference signal simultaneous capture. The test signal is streamed to one of the ouput channels of the soundcard. From there, the signal is split and delivered both to the speaker system (in this example and amplifier and speaker) and to the channel of the soundcard assigned to capture the reference. The room outputs are capture by two other soundcard channels.
 
@@ -120,7 +120,7 @@ The device used to split the signal should be able to do so without introducing 
 
 #### Reference Signal Option 2: Loopback
 
-![Spectrogram](res/pics/option-2.png)
+![Option 2: Loopback](res/pics/option-2.png)
 
 The picture above shows the connection diagram for the option 2 for room outputs and reference signal simultaneous capture. In this case, the test signal is streamed simultaneously to two outputs of the soundcard. However, one of the outputs is looped back into the reference channels.
 
