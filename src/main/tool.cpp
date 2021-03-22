@@ -20,6 +20,7 @@
  */
 
 #include <lsp-plug.in/common/status.h>
+#include <lsp-plug.in/common/debug.h>
 #include <lsp-plug.in/stdlib/stdio.h>
 #include <lsp-plug.in/dsp-units/sampling/Sample.h>
 #include <lsp-plug.in/dsp-units/units.h>
@@ -73,6 +74,7 @@ namespace room_raider
         // Initialize output sample
         // Using 2X sweep length, sweep itself should be longer than expected reverberation time to be on the safe side.
         // The time is provided in ms
+        lsp_debug("sample rate: %d, seep length: %f", int(cfg->nSampleRate), cfg->fSweepLength);
         size_t length = dspu::millis_to_samples(cfg->nSampleRate, 2.0f * cfg->fSweepLength);
         if (!out.init(1, length, length))
         {

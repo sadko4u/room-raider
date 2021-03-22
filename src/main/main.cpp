@@ -26,6 +26,17 @@
 #ifndef LSP_IDE_DEBUG
     int main(int argc, const char **argv)
     {
-        return room_raider::main(argc, argv);
+        using namespace lsp;
+
+        int res;
+
+        // Perform data processing
+        dsp::context_t ctx;
+        dsp::init();
+        dsp::start(&ctx);
+        res = room_raider::main(argc, argv);
+        dsp::finish(&ctx);
+
+        return res;
     }
 #endif /* LSP_IDE_DEBUG */

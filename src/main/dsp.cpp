@@ -155,7 +155,7 @@ namespace room_raider
         float *vResult = ptr;
         ptr += nIRSize;
 
-        lsp_assert(ptr <= &save[nSamples]);
+        lsp_assert(ptr <= &save[nTotal]);
 
         // Let's fill the kernel, it is simply the reference, but backwards in time.
         dsp::fill_zero(vKernel, nBufferSize);
