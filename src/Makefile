@@ -73,7 +73,7 @@ ifeq ($($(ARTIFACT_ID)_TESTING),1)
   ARTIFACT_TARGETS       += $(ARTIFACT_TEST_BIN)
 endif
 
-DEP_CXX                 = $(foreach src,$(CXX_SRC_MAIN) $(CXX_SRC_EXT) $(CXX_SRC_TEST),$(patsubst %.cpp,$(ARTIFACT_BIN)/%.d,$(src)))
+DEP_CXX                 = $(foreach src,$(CXX_SRC_MAIN) $(CXX_SRC_EXT) $(CXX_SRC_TEST) $(CXX_SRC_NOTEST),$(patsubst %.cpp,$(ARTIFACT_BIN)/%.d,$(src)))
 DEP_CXX_FILE            = $(patsubst $(ARTIFACT_BIN)/%.d,%.cpp,$(@))
 DEP_DEP_FILE            = $(patsubst $(ARTIFACT_BIN)/%.d,%.o,$(@))
 

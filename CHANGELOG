@@ -2,6 +2,10 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 0.5.1 ===
+
+* Fixed NULL ponter on non-initialized lsp-dsp-lib.
+
 === 0.5.0 ===
 
 * Initial release.
