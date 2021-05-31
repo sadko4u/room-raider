@@ -178,7 +178,7 @@ namespace room_raider
             for (const option_t *p = room_raider::options; p->s_short != NULL; ++p)
                 if (!strcmp(xopt, p->s_long))
                 {
-                    if (i >= argc)
+                    if ((!p->s_flag) && (i >= argc))
                     {
                         fprintf(stderr, "Not defined value for option: %s\n", opt);
                         return STATUS_BAD_ARGUMENTS;
