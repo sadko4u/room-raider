@@ -29,12 +29,12 @@ LSP_DSP_LIB_NAME           := lsp-dsp-lib
 LSP_DSP_LIB_TYPE           := src
 LSP_DSP_LIB_URL            := https://github.com/sadko4u/$(LSP_DSP_LIB_NAME).git
 
-LSP_DSP_UNITS_VERSION      := 0.5.1
+LSP_DSP_UNITS_VERSION      := 0.5.3
 LSP_DSP_UNITS_NAME         := lsp-dsp-units
 LSP_DSP_UNITS_TYPE         := src
 LSP_DSP_UNITS_URL          := https://github.com/sadko4u/$(LSP_DSP_UNITS_NAME).git
 
-LSP_RUNTIME_LIB_VERSION    := 0.5.8
+LSP_RUNTIME_LIB_VERSION    := 0.5.9
 LSP_RUNTIME_LIB_NAME       := lsp-runtime-lib
 LSP_RUNTIME_LIB_TYPE       := src
 LSP_RUNTIME_LIB_URL        := https://github.com/sadko4u/$(LSP_RUNTIME_LIB_NAME).git
