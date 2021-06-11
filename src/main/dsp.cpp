@@ -170,7 +170,10 @@ namespace room_raider
             // Even though we always use the same impulse response,
             // we initialise at every iteration to make sure the internal state of the convolver is re-initialisated.
             if (!sConvolver.init(vKernel, nBufferSize, 16, 0))
+            {
+                free_aligned(pData);
                 return STATUS_NO_MEM;
+            }
 
             dsp::fill_zero(vInput, nIRSize);
             dsp::copy(vInput, in.getBuffer(ch), in.length());
@@ -196,6 +199,44 @@ namespace room_raider
         sConvolver.destroy();
 
         // Done.
+        return STATUS_OK;
+    }
+
+    status_t normalize(dspu::Sample *dst, float gain, size_t mode)
+    {
+        if (mode == NORM_NONE)
+            return STATUS_OK;
+
+        float peak  = 0.0f;
+        for (size_t i=0, n=dst->channels(); i<n; ++i)
+        {
+            float cpeak = dsp::abs_max(dst->channel(i), dst->length());
+            peak        = lsp_max(peak, cpeak);
+        }
+
+        // No peak detected?
+        if (peak < 1e-6)
+            return STATUS_OK;
+
+        switch (mode)
+        {
+            case NORM_BELOW:
+                if (peak >= gain)
+                    return STATUS_OK;
+                break;
+            case NORM_ABOVE:
+                if (peak <= gain)
+                    return STATUS_OK;
+                break;
+            default:
+                break;
+        }
+
+        // Adjust gain
+        float k = gain / peak;
+        for (size_t i=0, n=dst->channels(); i<n; ++i)
+            dsp::mul_k2(dst->channel(i), k, dst->length());
+
         return STATUS_OK;
     }
 }

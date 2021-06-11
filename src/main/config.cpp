@@ -34,6 +34,9 @@ namespace room_raider
         fEndFreq        = 20000.0f;
         fGain           = 0.0f;
         fSweepLength    = 20.0f;
+
+        nNormalize      = NORM_NONE;    // No normalization by default
+        fNormGain       = 0.0f;         // 0 dB gain by default
     }
 
     config_t::~config_t()
@@ -50,6 +53,9 @@ namespace room_raider
         fEndFreq        = 20000.0f;
         fGain           = 0.0f;
         fSweepLength    = 20.0f;
+
+        nNormalize      = NORM_NONE;
+        fNormGain       = 0.0f;
 
         sInFile.clear();
         sOutFile.clear();

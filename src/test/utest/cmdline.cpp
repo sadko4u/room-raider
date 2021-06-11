@@ -44,6 +44,8 @@ UTEST_BEGIN("room_raider", cmdline)
         UTEST_ASSERT(cfg->sOutFile.equals_ascii("output-file.wav"));
         UTEST_ASSERT(cfg->sReference.equals_ascii("reference-file.wav"));
         UTEST_ASSERT(cfg->nSampleRate == 88200);
+        UTEST_ASSERT(float_equals_absolute(cfg->fNormGain, -3.0f));
+        UTEST_ASSERT(cfg->nNormalize == room_raider::NORM_ALWAYS);
     }
 
     void parse_cmdline(room_raider::config_t *cfg)
@@ -59,6 +61,8 @@ UTEST_BEGIN("room_raider", cmdline)
             "-o",   "output-file.wav",
             "-r",   "reference-file.wav",
             "-sr",  "88200",
+            "-ng",  "-3.0",
+            "-n",   "ALWAYS",
             NULL
         };
 
