@@ -28,7 +28,17 @@
 namespace room_raider
 {
     status_t synth_test_sweep(const config_t *cfg, dspu::Sample &out);
+
     status_t deconvolve(const config_t *cfg, const dspu::Sample &in, const dspu::Sample &ref, dspu::Sample &out);
+
+    /**
+     * Normalize sample to the specified gain
+     * @param dst sample to normalize
+     * @param gain the maximum peak gain
+     * @param mode the normalization mode
+     * @return status of operation
+     */
+    status_t normalize(dspu::Sample *dst, float gain, size_t mode);
 }
 
 #endif

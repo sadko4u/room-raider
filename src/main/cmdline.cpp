@@ -40,6 +40,12 @@ namespace room_raider
         const char *s_desc;
     } option_t;
 
+    typedef struct cfg_flag_t
+    {
+        const char     *name;
+        ssize_t         value;
+    } cfg_flag_t;
+
     static const option_t options[] =
     {
         { "-d",   "--deconvolve",       true,      "Deconvolve the captured signal"             },
@@ -47,6 +53,8 @@ namespace room_raider
         { "-g",   "--gain",             false,     "Gain (in dB) of the sine sweep"             },
         { "-h",   "--help",             true,      "Output this help message"                   },
         { "-i",   "--in-file",          false,     "Input audio file"                           },
+        { "-n",   "--normalize",        false,     "Set normalization mode"                     },
+        { "-ng",  "--norm-gain",        false,     "Set normalization peak gain (in dB)"        },
         { "-o",   "--out-file",         false,     "Output audio file"                          },
         { "-r",   "--reference",        false,     "Reference audio file"                       },
         { "-s",   "--sweep",            true,      "Produce sine sweep signal"                  },
@@ -54,6 +62,15 @@ namespace room_raider
         { "-sl",  "--sweep-length",     false,     "The length of the sweep in ms"              },
         { "-sr",  "--srate",            false,     "Sample rate of output files"                },
         { NULL, NULL, false, NULL }
+    };
+
+    const cfg_flag_t normalize_flags[] =
+    {
+        { "none",   NORM_NONE   },
+        { "above",  NORM_ABOVE  },
+        { "below",  NORM_BELOW  },
+        { "always", NORM_ALWAYS },
+        { NULL,     0           }
     };
 
     status_t print_usage(const char *name, bool fail)
@@ -139,6 +156,55 @@ namespace room_raider
         }
 
         *dst = fvalue;
+
+        return STATUS_OK;
+    }
+
+    const cfg_flag_t *find_config_flag(const LSPString *s, const cfg_flag_t *flags)
+    {
+        for (size_t i=0; (flags != NULL) && (flags->name != NULL); ++i, ++flags)
+        {
+            if (s->equals_ascii_nocase(flags->name))
+                return flags;
+        }
+        return NULL;
+    }
+
+    status_t parse_cmdline_enum(ssize_t *dst, const char *parameter, const char *val, const cfg_flag_t *flags)
+    {
+        LSPString in;
+        if (!in.set_native(val))
+        {
+            fprintf(stderr, "Out of memory\n");
+            return STATUS_NO_MEM;
+        }
+
+        io::InStringSequence is(&in);
+        expr::Tokenizer t(&is);
+        const cfg_flag_t *flag = NULL;
+
+        switch (t.get_token(expr::TF_GET | expr::TF_XKEYWORDS))
+        {
+            case expr::TT_BAREWORD:
+                if ((flag = find_config_flag(t.text_value(), flags)) == NULL)
+                {
+                    fprintf(stderr, "Bad '%s' value\n", parameter);
+                    return STATUS_BAD_FORMAT;
+                }
+                break;
+
+            default:
+                fprintf(stderr, "Bad '%s' value\n", parameter);
+                return STATUS_BAD_FORMAT;
+        }
+
+        if (t.get_token(expr::TF_GET) != expr::TT_EOF)
+        {
+            fprintf(stderr, "Bad '%s' value\n", parameter);
+            return STATUS_INVALID_VALUE;
+        }
+
+        *dst = flag->value;
 
         return STATUS_OK;
     }
@@ -260,6 +326,16 @@ namespace room_raider
         if ((val = options.get("--sweep-length")) != NULL)
         {
             if ((res = parse_cmdline_float(&cfg->fSweepLength, val, "sweep length")) != STATUS_OK)
+                return res;
+        }
+        if ((val = options.get("--norm-gain")) != NULL)
+        {
+            if ((res = parse_cmdline_float(&cfg->fNormGain, val, "norm-gain")) != STATUS_OK)
+                return res;
+        }
+        if ((val = options.get("--normalize")) != NULL)
+        {
+            if ((res = parse_cmdline_enum(&cfg->nNormalize, "normalize", val, normalize_flags)) != STATUS_OK)
                 return res;
         }
 

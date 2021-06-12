@@ -36,6 +36,14 @@ namespace room_raider
         M_DECONVOLVE
     };
 
+    enum normalize_t
+    {
+        NORM_NONE,              // No normalization
+        NORM_ABOVE,             // When the maximum peak is above the threshold
+        NORM_BELOW,             // When the maximum peak is below the threshold
+        NORM_ALWAYS             // Always normalize
+    };
+
     /**
      * Overall configuration
      */
@@ -54,6 +62,8 @@ namespace room_raider
             LSPString                               sInFile;        // Source file
             LSPString                               sOutFile;       // Destination file
             LSPString                               sReference;     // Reference file
+            ssize_t                                 nNormalize;     // Normalization method
+            float                                   fNormGain;      // Normalization gain
 
         public:
             explicit config_t();

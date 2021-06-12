@@ -33,6 +33,8 @@
 #define MIN_SAMPLE_RATE         8000
 #define MAX_SAMPLE_RATE         192000
 
+#define MIN_GAIN                -200.0f
+
 namespace room_raider
 {
     using namespace lsp;
@@ -162,6 +164,10 @@ namespace room_raider
 
         // deconvolution
         deconvolve(cfg, in, ref, out);
+
+        // normalization
+        float norm_gain = (cfg->fNormGain >= MIN_GAIN) ? dspu::db_to_gain(cfg->fNormGain) : 0.0f;
+        normalize(&out, norm_gain, cfg->nNormalize);
 
         // Save the sample to output
         if (out.save(&cfg->sOutFile) < 0)

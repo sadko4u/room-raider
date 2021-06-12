@@ -2,6 +2,9 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 0.5.3 ===
+* Added normalization of output sample.
+
 === 0.5.2 ===
 
 * Fixed command-line parsing.

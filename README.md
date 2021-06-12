@@ -20,6 +20,8 @@ The available option list will be the following:
   -g, --gain             Gain (in dB) of the sine sweep
   -h, --help             Output this help message
   -i, --in-file          Input audio file
+  -n, --normalize        Set normalization mode
+  -ng, --norm-gain       Set normalization peak gain (in dB)
   -o, --out-file         Output audio file
   -r, --reference        Reference audio file
   -s, --sweep            Produce sine sweep signal
@@ -109,6 +111,13 @@ room-raider -d -sr 96000 -i room-outputs.wav -r reference.wav -o response.wav
 For more information, see `room-raider --help`.
 
 The file `response.wav` will have the same number of channels as `room-outputs.wav` and will contain the electroacoustic impulse responses from soundcard output to each of the test microphones.
+
+Additionally, the output sample can be normalized with options ```-n``` and ```-ng```. While ```-ng``` option sets the maximum peak level (in dB) of the output sample, 
+the ```-n``` option allows to specify the normalization algorithm:
+  * **none** - do not use normalization (default);
+  * **above** - normalize the file if the maximum signal peak is above the specified peak level;
+  * **below** - normalize the file if the maximum signal peak is below the specified peak level;
+  * **always** - always normalize output files to match the maximum signal peak to specified peak level.
 
 Requirements
 ======
